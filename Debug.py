@@ -36,14 +36,22 @@ game_df_test['y2_bin'] = pd.cut(game_df_test['endY'], bins=xT_rows, labels=False
 # to perform computation as below.
 # Also we need to set an empty columns perfilled with Null values before starting our solution.
 
+
 game_df_test['start_zone_value'] = np.nan
 game_df_test['end_zone_value'] = np.nan
 game_df_test['xT'] = np.nan
 
 for i in range(game_df_test.shape[0]):
     if (game_df_test.loc[i,'outcomeType'] == "Successful") & (game_df_test.loc[i,'type'] == 'Pass'):
-        game_df_test.loc[i, "start_zone_value"] = 1 # based on the values of x1_bin and y1_bin in game_df_test, find the matching xT value from the previously defined np array, xT
-        game_df_test.loc[i, "end_zone_value"] = 5 # based on the values of x2_bin and y2_bin in game_df_test, find the matching xT value from the previously defined np array, xT
+
+        # Values to match at xT
+        x1, y1 = int(game_df_test.loc[2, "x1_bin"]), int(game_df_test.loc[2, "y1_bin"])
+        x2, y2 = int(game_df_test.loc[2, "x2_bin"]), int(game_df_test.loc[2, "y2_bin"])
+        
+        
+        # matching values 
+        game_df_test.loc[i, "start_zone_value"] = xT[x1][1] + xT[y1][0] # based on the values of x1_bin and y1_bin in game_df_test, find the matching xT value from the previously defined np array, xT
+        game_df_test.loc[i, "end_zone_value"] = xT[x2][1] + xT[y2][0] # based on the values of x2_bin and y2_bin in game_df_test, find the matching xT value from the previously defined np array, xT
         game_df_test.loc[i, "xT"] = game_df_test.loc[i, "end_zone_value"] - game_df_test.loc[i, "start_zone_value"]
     else:
         pass
