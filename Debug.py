@@ -45,13 +45,13 @@ for i in range(game_df_test.shape[0]):
     if (game_df_test.loc[i,'outcomeType'] == "Successful") & (game_df_test.loc[i,'type'] == 'Pass'):
 
         # Values to match at xT
-        x1, y1 = int(game_df_test.loc[2, "x1_bin"]), int(game_df_test.loc[2, "y1_bin"])
-        x2, y2 = int(game_df_test.loc[2, "x2_bin"]), int(game_df_test.loc[2, "y2_bin"])
+        x1, y1 = int(game_df_test.loc[i, "x1_bin"]), int(game_df_test.loc[i, "y1_bin"])
+        x2, y2 = int(game_df_test.loc[i, "x2_bin"]), int(game_df_test.loc[i, "y2_bin"])
         
         
         # matching values 
-        game_df_test.loc[i, "start_zone_value"] = xT[x1][1] + xT[y1][0] # based on the values of x1_bin and y1_bin in game_df_test, find the matching xT value from the previously defined np array, xT
-        game_df_test.loc[i, "end_zone_value"] = xT[x2][1] + xT[y2][0] # based on the values of x2_bin and y2_bin in game_df_test, find the matching xT value from the previously defined np array, xT
+        game_df_test.loc[i, "start_zone_value"] = xT[y1, x1] # based on the values of x1_bin and y1_bin in game_df_test, find the matching xT value from the previously defined np array, xT
+        game_df_test.loc[i, "end_zone_value"] = xT[y2, x2] # based on the values of x2_bin and y2_bin in game_df_test, find the matching xT value from the previously defined np array, xT
         game_df_test.loc[i, "xT"] = game_df_test.loc[i, "end_zone_value"] - game_df_test.loc[i, "start_zone_value"]
     else:
         pass
